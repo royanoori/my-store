@@ -1,17 +1,34 @@
-'use client';
+"use client";
 
-import { Button } from '@mui/material';
-import { useSelector, useDispatch } from 'react-redux';
-import { toggleMode } from '../store/slices/themeSlice';
-import { RootState, AppDispatch } from '../store/store';
-
+import { Button, IconButton } from "@mui/material";
+import { useSelector, useDispatch } from "react-redux";
+import { toggleMode } from "../store/slices/themeSlice";
+import { RootState, AppDispatch } from "../store/store";
+import LightModeIcon from "@mui/icons-material/LightMode";
+import DarkModeIcon from "@mui/icons-material/DarkMode";
 export default function ThemeToggle() {
-  const mode = useSelector((state: RootState) => state.theme.mode);
-  const dispatch: AppDispatch = useDispatch();
+ const mode = useSelector((state: RootState) => state.theme.mode);
+ const dispatch: AppDispatch = useDispatch();
 
-  return (
-    <Button variant="contained" onClick={() => dispatch(toggleMode())}>
-      Switch to {mode === 'light' ? 'Dark' : 'Light'} Mode
-    </Button>
-  );
+ return (
+  //   <Button
+  //    color="secondary"
+  //    variant="contained"
+  // endIcon={mode === "light" ?  <DarkModeIcon />: <LightModeIcon />}
+  //    sx={{ margin: 1 }}
+  //    onClick={() => dispatch(toggleMode())}
+  //   >
+  //   </Button>
+  <IconButton
+   aria-label="Mode"
+   size="small"
+   onClick={() => dispatch(toggleMode())}
+  >
+   {mode === "light" ? (
+    <DarkModeIcon />
+   ) : (
+    <LightModeIcon className="text-yellow-600" />
+   )}
+  </IconButton>
+ );
 }
