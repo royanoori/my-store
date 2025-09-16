@@ -1,0 +1,58 @@
+{
+  "Category": [
+    { "id": 1, "name": "کالای دیجیتال", "image": "/images/digital.png" },
+    { "id": 2, "name": "آرایشی و بهداشتی", "image": "/images/beauty.png" },
+    { "id": 3, "name": "مد و پوشاک", "image": "/images/fashion.png" },
+    { "id": 4, "name": "تفریح و سرگرمی", "image": "/images/fun.png" }
+  ],
+  "Products": [
+    {
+      "id": 1,
+      "name": "موس بی‌سیم لاجیتک مدل M590",
+      "categoryId": 1,
+      "description": "هدفون بی‌سیم با کیفیت صدای عالی و باتری طولانی",
+      "score": 1400,
+      "image": "/images/digital/1.png"
+    },
+    {
+      "id": 2,
+      "name": "اسپری مو 2 فاز مرطوب کننده میسوری",
+      "categoryId": 2,
+      "description": "اسپری مو 2 فاز مرطوب کننده میسوری",
+      "score": 900,
+      "image": "/images/beauty/1.png"
+    },
+    {
+      "id": 3,
+      "name": "تی‌شرت نخی مردانه",
+      "categoryId": 3,
+      "description": "تی‌شرت راحت و سبک مناسب فصل تابستان",
+      "score": 950,
+      "image": "/images/fashion/1.png"
+    },
+    {
+      "id": 4,
+      "name": "کتاب داستانی کودک",
+      "categoryId": 4,
+      "description": "مجموعه داستان‌های آموزنده برای کودکان",
+      "score": 800,
+      "image": "/images/fun/1.webp"
+    },
+    {
+      "id": 5,
+      "name": "هدفون بلوتوثی موزیک آپولو مدل",
+      "categoryId": 1,
+      "description": "هدفون بی‌سیم با کیفیت صدای عالی و باتری طولانی",
+      "score": 1400,
+      "image": "/images/digital/2.png"
+    },
+    {
+      "id": 6,
+      "name": "هدفون بلوتوثی بیسل",
+      "categoryId": 1,
+      "description": "هدفون بی‌سیم با کیفیت صدای عالی و باتری طولانی",
+      "score": 1400,
+      "image": "/images/digital/2.png"
+    }
+  ]
+}

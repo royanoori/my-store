@@ -7,7 +7,7 @@ import CssBaseline from '@mui/material/CssBaseline';
 import { ThemeProvider as MuiThemeProvider } from '@mui/material/styles';
 import { lightTheme, darkTheme } from '../theme';
 import { setMode } from '../store/slices/themeSlice';
-import Loading from '../components/Loading';
+import Loading from '@/app/loading';
 
 interface ProvidersProps {
   children: ReactNode;

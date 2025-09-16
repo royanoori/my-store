@@ -1,14 +1,7 @@
-import ThemeToggle from "@/components/ThemeToggle";
-import { ToggleButton } from "@mui/material";
-import React from "react";
+import UserNameView from "@/features/rewardsStore/views/UserNameView";
 
 function page() {
- return (
-  <>
-   <div>page</div>
-   <ThemeToggle />
-  </>
- );
+ return <UserNameView />;
 }
 
 export default page;
