@@ -11,21 +11,13 @@ export default function ThemeToggle() {
  const dispatch: AppDispatch = useDispatch();
 
  return (
-  //   <Button
-  //    color="secondary"
-  //    variant="contained"
-  // endIcon={mode === "light" ?  <DarkModeIcon />: <LightModeIcon />}
-  //    sx={{ margin: 1 }}
-  //    onClick={() => dispatch(toggleMode())}
-  //   >
-  //   </Button>
   <IconButton
    aria-label="Mode"
    size="small"
    onClick={() => dispatch(toggleMode())}
   >
    {mode === "light" ? (
-    <DarkModeIcon />
+    <DarkModeIcon className="text-sky-50" />
    ) : (
     <LightModeIcon className="text-yellow-600" />
    )}

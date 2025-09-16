@@ -1,1 +1,11 @@
-@import '../theme/themeTailwind.css'
+@import '../theme/themeTailwind.css';
+@import "../styles/Vazirmatn-font-face.css";
+@import "../styles/Vazirmatn-FD-NL-font-face.css";
+
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+.scrollbar-hide {
+  -ms-overflow-style: none; /* IE & Edge */
+  scrollbar-width: none; /* Firefox */
+}
