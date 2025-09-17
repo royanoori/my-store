@@ -38,6 +38,7 @@ function ProductDetailsView({ productId }: ProductDetailsViewProps) {
      width={300}
      height={300}
      className="w-full h-60 md:h-96 object-cover rounded-lg mb-4"
+     priority
     />
 
     <h6 className="text-sm font-bold mb-4">{product.name}</h6>
