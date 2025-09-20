@@ -8,18 +8,19 @@ import product from '../data.json'
 import { useDispatch, useSelector } from "react-redux";
 import { setData } from "../redux/rewardsSlice";
 import { AppDispatch, RootState } from "@/store/store";
-import { useServicerScore } from "../api/useServicerScore";
+import { useServicerScore } from "../hooks/useServicerScore";
+import { setScore } from "../redux/userSlice";
 
 function UserNameView() {
-   const { data:roya, isLoading, error } = useServicerScore('664');
+  const dispatch = useDispatch<AppDispatch>();
 
-const dispatch = useDispatch<AppDispatch>();;
 
 useEffect(() => {
   dispatch(setData(product as DataType));
 }, [dispatch]);
  
 const data = useSelector((state: RootState) => state.rewards);
+
  // فقط دسته‌هایی که محصول دارند
   const categoriesWithProducts = data.Category.filter((category) =>
     data.Products.some((product) => product.categoryId === category.id)
@@ -32,7 +33,7 @@ const data = useSelector((state: RootState) => state.rewards);
         <>
           {categoriesWithProducts.length > 0 && (
             <header className="p-2">
-              <CategoryList categories={categoriesWithProducts} />
+              <CategoryList categories={categoriesWithProducts}  />
             </header>
           )}
 

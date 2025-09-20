@@ -8,10 +8,11 @@ import { ThemeProvider as MuiThemeProvider } from '@mui/material/styles';
 import { lightTheme, darkTheme } from '../theme';
 import { setMode } from '../store/slices/themeSlice';
 import Loading from '@/app/loading';
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-
-// ایجاد یک QueryClient برای React Query
-const queryClient = new QueryClient();
+import {  QueryClientProvider } from '@tanstack/react-query';
+import { SnackbarProvider } from './SnackbarProvider';
+import { queryClient } from './queryClient';
+// // ایجاد یک QueryClient برای React Query
+// const queryClient = new QueryClient();
 interface ProvidersProps {
   children: ReactNode;
 }
@@ -50,9 +51,14 @@ function ThemeWrapper({ children }: { children: ReactNode }) {
 export default function AppProviders({ children }: ProvidersProps) {
   return (
     <Provider store={store}>
+        <SnackbarProvider>
        <QueryClientProvider client={queryClient}>
-      <ThemeWrapper>{children}</ThemeWrapper>
+      <ThemeWrapper>
+          {children}
+        
+        </ThemeWrapper>
       </QueryClientProvider>
+        </SnackbarProvider>
     </Provider>
   );
 }
