@@ -1,11 +1,11 @@
 import CategoryView from '@/features/rewardsStore/views/CategoryView';
 import React from 'react'
 interface pageProps {
- params: Promise<{ userName: string; categoryName: string }>;
+ params: Promise<{ agencyCode: string; categoryName: string }>;
  searchParams?: Promise<{ [key: string]: string | string[] | undefined }>;
 }
 const CategoryPage = async  ({params, searchParams}:pageProps) => {
-  const {userName, categoryName} = await params;
+  const {agencyCode, categoryName} = await params;
   return (
     <CategoryView category = {categoryName} />
   )

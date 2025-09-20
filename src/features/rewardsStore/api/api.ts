@@ -1,23 +1,24 @@
+// import { axiosInstance } from "@/lib/axiosInstance";
+// import { ScoreResponse } from "../type";
+
+// export const getServicerCurrentScore = async (agencyCode: string) => {
+//   console.log(process.env.NEXT_PUBLIC_API_BASE_URL);
+
+//   const { data } = await axiosInstance.get<ScoreResponse>(
+//     "/GetServicerCurrentScore",
+//     {
+//       params: { agencyCode },
+//     }
+//   );
+//   return data;
+// };
+
+
 import axios from "axios";
 
-export interface ScoreResponse {
-  IsSuccess: boolean;
-  Message: string;
-  Exception: string | null;
-  Data: number;
-}
-
 export const getServicerCurrentScore = async (agencyCode: string) => {
-  const { data } = await axios.get<ScoreResponse>(
-    "https://api2.entekhabservice.ir/GetServicerCurrentScore",
-    {
-      headers: {
-        "Accept": "application/json",
-        "Caller-Id": "ANDROID-1699",
-        "Password": "Mj7579*Bn1566!",
-      },
-      params: { agencyCode }, // query param
-    }
-  );
+  const { data } = await axios.get(`/api/proxy/GetServicerCurrentScore`, {
+    params: { agencyCode },
+  });
   return data;
 };

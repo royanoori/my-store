@@ -2,16 +2,16 @@ import HeaderUser from "@/features/rewardsStore/components/HeaderUser";
 
 interface LayoutProps {
  children: React.ReactNode;
- params: Promise<{ userName: string }>;
+ params: Promise<{ agencyCode: string }>;
  searchParams?: Promise<{ [key: string]: string | string[] | undefined }>;
 }
 
 const Layout = async ({ children, params, searchParams }: LayoutProps) => {
- const { userName } = await params;
+ const { agencyCode } = await params;
 
  return (
   <div className="h-screen flex flex-col overflow-hidden ">
-   <HeaderUser userName={userName} />
+   <HeaderUser agencyCode={agencyCode} />
    <main className="flex-1  pt-3 pb-2 overflow-hidden flex flex-col">
     {children}
    </main>
