@@ -8,7 +8,7 @@ import product from "../data.json";
 import { useDispatch, useSelector } from "react-redux";
 import { setData } from "../redux/rewardsSlice";
 import { AppDispatch, RootState } from "@/store/store";
-import { useServicerScore } from "../hooks/useGetServicerCurrentScore";
+
 import { setScore } from "../redux/userSlice";
 
 function UserNameView() {
