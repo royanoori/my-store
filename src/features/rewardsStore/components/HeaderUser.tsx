@@ -3,19 +3,18 @@ import Loading from "@/app/loading";
 import NotFound from "@/app/not-found";
 import { AppDispatch } from "@/store/store";
 import { Avatar, Typography } from "@mui/material";
-import { use, useEffect, useState } from "react";
+import {  useEffect, useState } from "react";
 import { FaAward } from "react-icons/fa";
 import { useDispatch } from "react-redux";
-import { useServicerScore } from "../hooks/useServicerScore";
+import { useGetServicerCurrentScore } from "../hooks/useGetServicerCurrentScore";
 import { setAgencyCode, setName, setScore } from "../redux/userSlice";
 import { useGetServicerData } from "@/shared/core/user/hooks";
 
 function HeaderUser({ agencyCode }: { agencyCode: string }) {
  const dispatch = useDispatch<AppDispatch>();
  const [isInvalid, setIsInvalid] = useState(false);
- const { data: userScore, isLoading, error } = useServicerScore(agencyCode);
- const { data: userDataName, isLoading: isLoadingUserDataName } =
-  useGetServicerData(agencyCode);
+ const { data: userScore, isLoading, error } = useGetServicerCurrentScore(agencyCode);
+ const { data: userDataName, isLoading: isLoadingUserDataName } = useGetServicerData(agencyCode);
 
  useEffect(() => {
   if (userScore?.Data !== undefined) {

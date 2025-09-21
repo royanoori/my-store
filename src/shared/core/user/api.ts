@@ -1,9 +1,10 @@
-import axios from 'axios'
-import { UserResponse } from "./types";
+// features/user/api.ts
+import { axiosInstance } from "@/lib/axiosInstance";
+import { ApiResponse } from "@/shared/types/api";
+import { UserData } from "./types";
 
-export const getServicerData = async (agencyCode: string) => {
-  const { data } = await axios.get<UserResponse>(`/api/proxy/GetServicerData`, {
-    params: { agencyCode },
-  });
-  return data;
+export const getServicerData = (agencyCode: string) => {
+  return axiosInstance
+    .get<ApiResponse<UserData>>("/GetServicerData", { params: { agencyCode } })
+    .then((res) => res.data); // فقط داده را برگردان، throw نکن
 };

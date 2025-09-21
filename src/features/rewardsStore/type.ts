@@ -22,7 +22,7 @@ export interface DataType {
 }
 
 // type.ts
-export interface Category {
+export interface TCategory {
   Title: string;
   Image: string;
   Description: string;
@@ -30,14 +30,8 @@ export interface Category {
   HighestPrice: number | null;
 }
 
-export interface UserData {
+export interface TGetServicerCurrentScore {
   Score: number;
-  Categories: Category[];
+  Categories: TCategory[];
 }
 
-export interface ScoreResponse {
-  IsSuccess: boolean;
-  Message: string;
-  Exception: string | null;
-  Data: UserData;
-}
