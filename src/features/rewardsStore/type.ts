@@ -44,3 +44,16 @@ export interface SliderItem {
   ThumbnailName: string;
   IsVideo: boolean;
 }
+
+export interface ScoreItem {
+  ScoreSource: string;
+  ScoreType: number;
+  TransactionDate: string;
+  Count: number;
+  Description: string;
+}
+
+export interface TGetScoreList {
+  Count: number;
+  ScoreList: ScoreItem[];
+}
