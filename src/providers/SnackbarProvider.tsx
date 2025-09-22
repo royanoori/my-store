@@ -1,8 +1,15 @@
 "use client";
 
-import React, { createContext, useContext,useState, ReactNode, useEffect,} from "react";
-import { Snackbar, Alert, IconButton, SnackbarCloseReason,} from "@mui/material";
+import React, { createContext, useContext, useState, ReactNode } from "react";
+import { Snackbar, Alert, IconButton, Slide, SlideProps } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
+
+type SnackbarMessage = {
+ id: number;
+ message: string;
+ severity: "error" | "success" | "info" | "warning";
+ open: boolean;
+};
 
 type SnackbarContextType = {
  showMessage: (
@@ -24,70 +31,81 @@ export const useSnackbar = () => {
 
 export let globalShowSnackbar: SnackbarContextType["showMessage"] | null = null;
 
+const TransitionUp = (props: SlideProps) => (
+ <Slide {...props} direction="down" />
+);
+
 export const SnackbarProvider = ({ children }: { children: ReactNode }) => {
- const [open, setOpen] = useState(false);
- const [message, setMessage] = useState("");
- const [severity, setSeverity] = useState<
-  "error" | "success" | "info" | "warning"
- >("info");
+ const [messages, setMessages] = useState<SnackbarMessage[]>([]);
 
  const showMessage = (
-  msg: string,
-  sev: "error" | "success" | "info" | "warning" = "info"
+  message: string,
+  severity: "error" | "success" | "info" | "warning" = "info"
  ) => {
-  setMessage(msg);
-  setSeverity(sev);
-  setOpen(true);
+  const id = new Date().getTime() + Math.random();
+  setMessages((prev) => [...prev, { id, message, severity, open: true }]);
  };
 
- useEffect(() => {
-  globalShowSnackbar = showMessage;
- }, []);
- useEffect(() => {
-  console.log("Snackbar open:", open);
- }, [open]);
- const handleClose = (
-  _event?: React.SyntheticEvent | Event,
-  reason?: SnackbarCloseReason
- ) => {
-  console.log(open);
+ globalShowSnackbar = showMessage;
+
+ const handleClose = (id: number) => (_event?: any, reason?: string) => {
   if (reason === "clickaway") return;
-  setOpen(false);
+  setMessages((prev) =>
+   prev.map((msg) => (msg.id === id ? { ...msg, open: false } : msg))
+  );
+ };
+
+ const handleExited = (id: number) => {
+  setMessages((prev) => prev.filter((msg) => msg.id !== id));
  };
 
  return (
   <SnackbarContext.Provider value={{ showMessage }}>
    {children}
 
-   <Snackbar
-    open={open}
-    autoHideDuration={60000}
-    onClose={handleClose}
-    anchorOrigin={{ vertical: "top", horizontal: "right" }}
-   >
-    <Alert
-     severity={severity}
-     variant="filled"
-     sx={{
-      fontFamily: "Vazirmatn, Arial, sans-serif",
-      fontSize: "0.8rem",
-      textAlign: "right",
-      direction: "rtl",
+   {/* Stack of Snackbars */}
+   {messages.map((msg, index) => (
+    <Snackbar
+     key={msg.id}
+     open={msg.open}
+     autoHideDuration={10000}
+     onClose={handleClose(msg.id)}
+     TransitionComponent={TransitionUp}
+     TransitionProps={{ onExited: () => handleExited(msg.id) }} // ← اینجا اصلاح شد
+     anchorOrigin={{ vertical: "top", horizontal: "right" }}
+     sx={{ mt: `${index * 70}px`, direction: "rtl",
+     "&.MuiSnackbar-root": {
+      justifyContent: "flex-start", // ← اینجا سمت راست واقعی صفحه
+    },
      }}
-     action={
-      <IconButton
-       size="small"
-       aria-label="close"
-       color="inherit"
-       onClick={handleClose}
-      >
-       <CloseIcon fontSize="small" />
-      </IconButton>
-     }
+     
     >
-     {message}
-    </Alert>
-   </Snackbar>
+     <Alert
+      severity={msg.severity}
+      variant="standard"
+      sx={{
+       fontFamily: "Vazirmatn, Arial, sans-serif",
+       fontSize: "0.8rem",
+       textAlign: "right",
+       direction: "rtl",
+      }}
+      action={
+        <div className="flex justify-center items-center">
+       <IconButton
+        size="small"
+        aria-label="close"
+        color="inherit"
+        onClick={handleClose(msg.id)}
+       >
+        <CloseIcon fontSize="small" />
+       </IconButton>
+       </div>
+      }
+     >
+      {msg.message}
+     </Alert>
+    </Snackbar>
+   ))}
   </SnackbarContext.Provider>
  );
 };

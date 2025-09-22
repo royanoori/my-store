@@ -10,6 +10,7 @@ export const lightTheme = createTheme({
   secondary: { main: "#FAAE2E" },
   background: { default: "#ffffff", paper: "#fff" },
  },
+  direction: "rtl",
 });
 
 export const darkTheme = createTheme({
@@ -22,4 +23,5 @@ export const darkTheme = createTheme({
   secondary: { main: "#FAAE2E" },
   background: { default: "#121212", paper: "#1d1d1d" },
  },
+  direction: "rtl",
 });
