@@ -51,14 +51,13 @@ function ThemeWrapper({ children }: { children: ReactNode }) {
 export default function AppProviders({ children }: ProvidersProps) {
   return (
     <Provider store={store}>
-        <SnackbarProvider>
-       <QueryClientProvider client={queryClient}>
       <ThemeWrapper>
-          {children}
-        
-        </ThemeWrapper>
-      </QueryClientProvider>
-        </SnackbarProvider>
+        <QueryClientProvider client={queryClient}>
+          <SnackbarProvider>
+            {children}
+          </SnackbarProvider>
+        </QueryClientProvider>
+      </ThemeWrapper>
     </Provider>
   );
 }

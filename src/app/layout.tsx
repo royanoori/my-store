@@ -14,7 +14,7 @@ export default function RootLayout({
 }>) {
  return (
   <html lang="fa" dir="rtl">
-   <body>
+   <body className="rtl">
     <AppProviders>{children}</AppProviders>
    </body>
   </html>
