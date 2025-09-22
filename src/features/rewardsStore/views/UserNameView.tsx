@@ -10,10 +10,13 @@ import { setData } from "../redux/rewardsSlice";
 import { AppDispatch, RootState } from "@/store/store";
 
 import { setScore } from "../redux/userSlice";
+import { useGetSlides } from "../hooks/useGetSlides";
+import Image from "next/image";
+import Slider from "../components/Slider";
 
 function UserNameView() {
  const dispatch = useDispatch<AppDispatch>();
-
+ const { data: sliders, isSuccess } = useGetSlides({ enabled: true });
  useEffect(() => {
   dispatch(setData(product as DataType));
  }, [dispatch]);
@@ -36,7 +39,8 @@ function UserNameView() {
       </header>
      )}
 
-     <main className="pt-3 overflow-auto">
+     <main className="pt-1 overflow-auto">
+      {isSuccess && sliders?.Data?.length > 0 && <Slider images={sliders.Data} />}
       {categoriesWithProducts.map((category) => {
        const products = data.Products.filter(
         (p) => p.categoryId === category.id

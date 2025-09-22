@@ -35,3 +35,12 @@ export interface TGetServicerCurrentScore {
   Categories: TCategory[];
 }
 
+export interface SliderItem {
+ Id: string;
+  Name: string;
+  Url: string;
+  Link: string;
+  Thumbnail: string;
+  ThumbnailName: string;
+  IsVideo: boolean;
+}
