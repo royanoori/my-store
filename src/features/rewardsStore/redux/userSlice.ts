@@ -5,7 +5,7 @@ interface UserState {
   score: number | null;
   firstName: string | null;
   lastName: string | null;
-  agencyCode:string | null;
+  agencyCode:string;
   // می‌تونی بعداً فیلدهای دیگه مثل email، avatar و ... اضافه کنی
 }
 
@@ -13,7 +13,7 @@ const initialState: UserState = {
   score: null,
   firstName: null,
   lastName: null,
-  agencyCode:null,
+  agencyCode:"",
 };
 
 export const userSlice = createSlice({

@@ -1,7 +1,7 @@
 
 import { axiosInstance } from "@/lib/axiosInstance";
 import { ApiResponse } from "@/shared/types/api";
-import { SliderItem, TGetServicerCurrentScore } from "../type";
+import { SliderItem, TGetScoreList, TGetServicerCurrentScore } from "../type";
 
 export const getServicerCurrentScore = (agencyCode: string) => {
   return axiosInstance
@@ -21,3 +21,17 @@ export const getSlides = () => {
       return res.data;
     });
 };
+
+export const getScoreList = (agencyCode: string, page: number) => {
+  return axiosInstance
+    .get<ApiResponse<TGetScoreList>>("/GetScoreList", {
+      params: { agencyCode, page },
+    })
+    .then((res) => {
+      if (!res.data.IsSuccess) {
+        throw new Error(res.data.Message || "خطای ناشناخته");
+      }
+      return res.data.Data; // فقط Data برگرده
+    });
+};
+
