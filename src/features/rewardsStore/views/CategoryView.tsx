@@ -1,11 +1,10 @@
 "use client";
-import React from "react";
-import { useSelector } from "react-redux";
-import { RootState } from "@/store/store";
-import { ProductType, CategoryType } from "../type";
-import CartItem from "../components/CartItem";
 import Empty from "@/components/Empty";
+import { RootState } from "@/store/store";
+import { useSelector } from "react-redux";
 import CustomBreadcrumbs from "../components/Breadcrumbs";
+import CartItem from "../components/CartItem";
+import { TCategory, TProduct } from "../type";
 
 type CategoryViewProps = {
  category: string; // اینجا categoryName یا categoryId به عنوان رشته
@@ -15,8 +14,8 @@ function CategoryView({ category }: CategoryViewProps) {
  const data = useSelector((state: RootState) => state.rewards);
 
  // پیدا کردن آی‌دی دسته بندی بر اساس نام
- const categoryItem: CategoryType | undefined = data.Category.find(
-  (cat) => cat.name === category || String(cat.id) === category
+ const categoryItem: TCategory | undefined = data.Categories.find(
+  (cat) => cat.Title === category || String(cat.Id) === category
  );
 
  // اگر دسته بندی پیدا نشد
@@ -25,13 +24,13 @@ function CategoryView({ category }: CategoryViewProps) {
  }
 
  // فیلتر کردن محصولات بر اساس دسته بندی
- const products: ProductType[] = data.Products.filter(
-  (product) => product.categoryId === categoryItem.id
+ const products: TProduct[] = data.Products.filter(
+  (product) => product.Category === categoryItem.Id
  );
 
  if (products.length === 0) {
   return (
-   <Empty message={`محصولی برای دسته بندی ${categoryItem.name} یافت نشد!`} />
+   <Empty message={`محصولی برای دسته بندی ${categoryItem.Title} یافت نشد!`} />
   );
  }
 
@@ -42,7 +41,7 @@ function CategoryView({ category }: CategoryViewProps) {
    </header>
    <main className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 overflow-y-auto scrollbar-hide px-2 py-3">
     {products.map((product) => (
-     <CartItem key={product.id} product={product} />
+     <CartItem key={product.Id} product={product} />
     ))}
    </main>
   </>

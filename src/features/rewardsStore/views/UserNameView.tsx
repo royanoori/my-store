@@ -1,64 +1,78 @@
 "use client";
-import React, { useEffect } from "react";
+import Empty from "@/components/Empty";
+import { AppDispatch } from "@/store/store";
+import { useEffect, useMemo } from "react";
+import { useDispatch } from "react-redux";
 import CategoryList from "../components/CategoryList";
 import CategoryPreview from "../components/CategoryPreview";
-import { DataType } from "../type";
-import Empty from "@/components/Empty";
-import product from "../data.json";
-import { useDispatch, useSelector } from "react-redux";
 import { setData } from "../redux/rewardsSlice";
-import { AppDispatch, RootState } from "@/store/store";
-
-import { setScore } from "../redux/userSlice";
-import { useGetSlides } from "../hooks/useGetSlides";
-import Image from "next/image";
 import Slider from "../components/Slider";
+import { useGetSlides } from "../hooks/useGetSlides";
+import { useGetProductList } from "../hooks/useGetProductList";
 
 function UserNameView() {
- const dispatch = useDispatch<AppDispatch>();
- const { data: sliders, isSuccess } = useGetSlides({ enabled: true });
- useEffect(() => {
-  dispatch(setData(product as DataType));
- }, [dispatch]);
+  const dispatch = useDispatch<AppDispatch>();
 
- const data = useSelector((state: RootState) => state.rewards);
+  const { data: sliders, isSuccess } = useGetSlides({ enabled: true });
+  const {
+    data: ProductList,
+    isLoading,
+    isSuccess: isSuccessProductList,
+  } = useGetProductList({ enabled: true });
 
- // فقط دسته‌هایی که محصول دارند
- const categoriesWithProducts = data.Category.filter((category) =>
-  data.Products.some((product) => product.categoryId === category.id)
- );
- return (
-  <>
-   {data.Products.length === 0 ? (
-    <Empty message="محصولی یافت نشد" />
-   ) : (
+  // ذخیره داده در ریداکس
+  useEffect(() => {
+    if (ProductList) {
+      dispatch(setData(ProductList.Data)); // دقت کن: ساختار API → Data.Products , Data.Categories
+    }
+  }, [ProductList, dispatch]);
+
+  // فقط دسته‌هایی که محصول دارند
+  const categoriesWithProducts = useMemo(() => {
+    if (!ProductList) return [];
+    return ProductList.Data.Categories.filter((category) =>
+      ProductList.Data.Products.some((product) => product.Category === category.Id)
+    );
+  }, [ProductList]);
+
+  return (
     <>
-     {categoriesWithProducts.length > 0 && (
-      <header className="p-2">
-       <CategoryList categories={categoriesWithProducts} />
-      </header>
-     )}
+      {isLoading ? (
+        <p className="p-4">در حال بارگذاری...</p>
+      ) : ProductList?.Data.Products.length === 0 ? (
+        <Empty message="محصولی یافت نشد" />
+      ) : (
+        <>
+          {categoriesWithProducts.length > 0 && (
+            <header className="p-2">
+              <CategoryList categories={categoriesWithProducts} />
+            </header>
+          )}
 
-     <main className="pt-1 overflow-auto">
-      {isSuccess && sliders?.Data?.length > 0 && <Slider images={sliders.Data} />}
-      {categoriesWithProducts.map((category) => {
-       const products = data.Products.filter(
-        (p) => p.categoryId === category.id
-       );
-       if (products.length === 0) return null; // دسته خالی → هیچی نشون داده نمیشه
-       return (
-        <CategoryPreview
-         key={category.id}
-         category={category}
-         products={products}
-        />
-       );
-      })}
-     </main>
+          <main className="pt-1 overflow-auto">
+            {isSuccess && sliders?.Data?.length > 0 && (
+              <Slider images={sliders.Data} />
+            )}
+
+            {categoriesWithProducts.map((category) => {
+              const products = ProductList?.Data.Products.filter(
+                (p) => p.Category === category.Id
+              );
+              if (products?.length === 0) return null;
+
+              return (
+                <CategoryPreview
+                  key={category.Id}
+                  category={category}
+                  products={products?? []}
+                />
+              );
+            })}
+          </main>
+        </>
+      )}
     </>
-   )}
-  </>
- );
+  );
 }
 
 export default UserNameView;

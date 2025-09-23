@@ -1,25 +1,4 @@
 // تایپ یک دسته بندی
-export interface CategoryType {
-  id: number;
-  name: string;
-  image: string;
-}
-
-// تایپ یک محصول
-export interface ProductType {
-  id: number;
-  name: string;
-  categoryId: number; // آی‌دی دسته‌بندی مربوطه
-  description: string;
-  score: number;
-  image: string;
-}
-
-// تایپ کل داده‌ها
-export interface DataType {
-  Category: CategoryType[];
-  Products: ProductType[];
-}
 
 // type.ts
 export interface TCategory {
@@ -56,4 +35,26 @@ export interface ScoreItem {
 export interface TGetScoreList {
   Count: number;
   ScoreList: ScoreItem[];
+}
+
+export interface TProduct {
+  Id: number;
+  Title: string;
+  Description: string;
+  Price: number;
+  MainImage: string | null;
+  Category: number;
+  Status: boolean;
+  Attaches: string[]; // اگه بعداً آبجکت باشه باید جداگانه تایپ بسازی
+}
+
+export interface TCategory {
+  Id: number;
+  Title: string;
+  Image: string;
+}
+
+export interface TProductList {
+  Products: TProduct[];
+  Categories: TCategory[];
 }

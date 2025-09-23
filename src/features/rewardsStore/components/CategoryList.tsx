@@ -1,10 +1,10 @@
 import React from "react";
 import CategoryItem from "./CategoryItem";
-import { CategoryType } from "../type";
+import { TCategory } from "../type";
 
 
 interface CategoryListProps {
-  categories: CategoryType[];
+  categories: TCategory[];
 }
 function CategoryList( {categories} : CategoryListProps) {
   return (
@@ -12,10 +12,8 @@ function CategoryList( {categories} : CategoryListProps) {
       <div className="flex gap-4 w-max">
         {categories.map((category) => (
           <CategoryItem 
-            key={category.id}
-            id={category.id}
-            name={category.name}
-            image={category.image}
+            key={category.Id}
+            category={category}
           />
         ))}
       </div>

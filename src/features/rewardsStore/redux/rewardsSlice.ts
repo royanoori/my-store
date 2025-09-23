@@ -1,9 +1,8 @@
-// features/rewardsStore/redux/rewardsSlice.ts
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { DataType } from "../type";
+import { TProductList } from "../type";
 
-const initialState: DataType = {
-  Category: [],
+const initialState: TProductList = {
+  Categories: [],
   Products: [],
 };
 
@@ -11,12 +10,12 @@ const rewardsSlice = createSlice({
   name: "rewards",
   initialState,
   reducers: {
-    setData(state, action: PayloadAction<DataType>) {
-      state.Category = action.payload.Category;
+    setData(state, action: PayloadAction<TProductList>) {
+      state.Categories = action.payload.Categories;
       state.Products = action.payload.Products;
     },
     clearData(state) {
-      state.Category = [];
+      state.Categories = [];
       state.Products = [];
     },
   },
