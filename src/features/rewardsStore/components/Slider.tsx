@@ -1,11 +1,11 @@
-import { Navigation, Pagination, Scrollbar, Autoplay } from "swiper/modules";
-import { Swiper, SwiperSlide } from "swiper/react";
+import Image from "next/image";
 import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
 import "swiper/css/scrollbar";
+import { Autoplay, Pagination, Scrollbar } from "swiper/modules";
+import { Swiper, SwiperSlide } from "swiper/react";
 import { SliderItem } from "../type";
-import Image from "next/image";
 
 interface SliderProps {
  images: SliderItem[];

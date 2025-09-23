@@ -8,6 +8,11 @@ const nextConfig: NextConfig = {
         hostname: "tools.entekhabservice.ir",
         pathname: "/slider/**",
       },
+      {
+        protocol: "https",
+        hostname: "api2.entekhabservice.ir",
+        pathname: "/ServicerClubObjectStorage/**", // تمام مسیرهای تصاویر
+      },
     ],
   },
 };

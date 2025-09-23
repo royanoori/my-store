@@ -15,25 +15,25 @@ const CustomBreadcrumbs = () => {
  const categoryId = segments[2];
  const productId = segments[3];
 
- const categoryItem = data.Category.find(
-  (cat) => String(cat.id) === categoryId
+ const categoryItem = data.Categories.find(
+  (cat) => String(cat.Id) === categoryId
  );
  const productItem = data.Products.find(
-  (prod) => String(prod.id) === productId
+  (prod) => String(prod.Id) === productId
  );
 
  const breadcrumbs = [
   { name: "فروشگاه", href: `/rewardsStore/${userName}` },
   categoryItem
    ? {
-      name: categoryItem.name,
-      href: `/rewardsStore/${userName}/${categoryItem.id}`,
+      name: categoryItem.Title,
+      href: `/rewardsStore/${userName}/${categoryItem.Id}`,
      }
    : undefined,
   productItem
    ? {
-      name: productItem.name,
-      href: `/rewardsStore/${userName}/${categoryId}/${productItem.id}`,
+      name: productItem.Title,
+      href: `/rewardsStore/${userName}/${categoryId}/${productItem.Id}`,
      }
    : undefined,
  ].filter((item): item is { name: string; href: string } => Boolean(item));
