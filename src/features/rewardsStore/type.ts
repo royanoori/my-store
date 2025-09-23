@@ -58,3 +58,8 @@ export interface TProductList {
   Products: TProduct[];
   Categories: TCategory[];
 }
+
+export interface SubmitOrderPayload {
+  agencyCode: number;
+  productId: number;
+}

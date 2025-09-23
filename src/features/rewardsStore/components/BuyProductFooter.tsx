@@ -10,22 +10,52 @@ import {
 import { FaCartShopping } from "react-icons/fa6";
 import { useSelector } from "react-redux";
 import { RootState } from "@/store/store";
+import { useSubmitOrder } from "../hooks/useSubmitOrder";
+import { useSnackbar } from "@/providers/SnackbarProvider";
+import { useQueryClient } from "@tanstack/react-query";
 
 type BuyProductFooterProps = {
  price: number | string;
+ productId: number;
 };
 
-function BuyProductFooter({ price }: BuyProductFooterProps) {
- const [open, setOpen] = useState(false);
+function BuyProductFooter({ price, productId }: BuyProductFooterProps) {
  const userScore = useSelector((state: RootState) => state.user.score) ?? 0;
+ const agencyCode =
+  useSelector((state: RootState) => state.user.agencyCode) ?? "";
+
+ const { showMessage } = useSnackbar();
+ const queryClient = useQueryClient();
+ const [open, setOpen] = useState(false);
+
+ const mutatation = useSubmitOrder();
+
  // باز و بسته کردن مودال
  const handleOpen = () => setOpen(true);
  const handleClose = () => setOpen(false);
 
  // تابع تایید خرید
  const handleConfirm = () => {
-  console.log("✅ خرید انجام شد"); // اینجا می‌تونی API بزنی یا dispatch کنی
-  setOpen(false);
+  if (!agencyCode || !productId) return;
+
+  mutatation.mutate(
+   { agencyCode: Number(agencyCode), productId },
+   {
+    onSuccess: (res) => {
+     if (res.IsSuccess) {
+      showMessage(res.Message, "success");
+
+      queryClient.invalidateQueries({ queryKey: ["GetServicerCurrentScore"] });
+     } else {
+      showMessage(res.Message, "error");
+     }
+     handleClose();
+    },
+    onError: (err: any) => {
+     alert("خطا در ارسال سفارش: " + err.message);
+    },
+   }
+  );
  };
 
  return (
@@ -38,7 +68,7 @@ function BuyProductFooter({ price }: BuyProductFooterProps) {
      color="secondary"
      size="medium"
      onClick={handleOpen}
-     disabled={userScore < Number(price)} // اگر امتیاز کاربر کمتر بود غیرفعال
+     disabled={userScore < Number(price)}
     >
      خرید
     </Button>
@@ -61,7 +91,7 @@ function BuyProductFooter({ price }: BuyProductFooterProps) {
       انصراف
      </Button>
      <Button variant="contained" color="secondary" onClick={handleConfirm}>
-      تایید
+      {mutatation.isPending ? "در حال ارسال..." : "تایید"}
      </Button>
     </DialogActions>
    </Dialog>

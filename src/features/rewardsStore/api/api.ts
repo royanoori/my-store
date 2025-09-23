@@ -2,6 +2,7 @@ import { axiosInstance } from "@/lib/axiosInstance";
 import { ApiResponse } from "@/shared/types/api";
 import {
   SliderItem,
+  SubmitOrderPayload,
   TGetScoreList,
   TGetServicerCurrentScore,
   TProductList
@@ -55,4 +56,14 @@ export const getProductList = () => {
    }
    return res.data; // فقط Data برگرده
   });
+};
+
+
+export const submitOrder = async (payload: SubmitOrderPayload) => {
+  const { data } = await axiosInstance.post<ApiResponse<SubmitOrderPayload>>(
+    "/SubmitOrder",
+     {},
+  { params: payload }
+  );
+  return data;
 };
