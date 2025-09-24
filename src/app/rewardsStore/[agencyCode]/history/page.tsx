@@ -1,9 +1,8 @@
-import HistoryPage from '@/features/rewardsStore/components/HistoryPage'
+import HistoryView from '@/features/rewardsStore/views/HistoryView'
 
 function history() {
   return (
-    <HistoryPage/>
+    <HistoryView/>
   )
 }
-
 export default history

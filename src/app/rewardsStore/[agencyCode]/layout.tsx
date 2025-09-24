@@ -1,4 +1,4 @@
-import HeaderUser from "@/features/rewardsStore/components/HeaderUser";
+import HeaderUser from "@/features/rewardsStore/components/HeaderUser/HeaderUser";
 
 interface LayoutProps {
  children: React.ReactNode;
