@@ -9,6 +9,7 @@ import { setData } from "../redux/rewardsSlice";
 import Slider from "../components/Slider";
 import { useGetSlides } from "../hooks/useGetSlides";
 import { useGetProductList } from "../hooks/useGetProductList";
+import Loading from "@/app/loading";
 
 function UserNameView() {
   const dispatch = useDispatch<AppDispatch>();
@@ -25,7 +26,7 @@ function UserNameView() {
     if (ProductList) {
       dispatch(setData(ProductList.Data)); // دقت کن: ساختار API → Data.Products , Data.Categories
     }
-  }, [ProductList, dispatch]);
+  }, [isSuccessProductList, dispatch]);
 
   // فقط دسته‌هایی که محصول دارند
   const categoriesWithProducts = useMemo(() => {
@@ -35,44 +36,49 @@ function UserNameView() {
     );
   }, [ProductList]);
 
-  return (
-    <>
-      {isLoading ? (
-        <p className="p-4">در حال بارگذاری...</p>
-      ) : ProductList?.Data.Products.length === 0 ? (
-        <Empty message="محصولی یافت نشد" />
-      ) : (
-        <>
-          {categoriesWithProducts.length > 0 && (
-            <header className="p-2">
-              <CategoryList categories={categoriesWithProducts} />
-            </header>
-          )}
-
-          <main className="pt-1 overflow-auto">
-            {isSuccess && sliders?.Data?.length > 0 && (
-              <Slider images={sliders.Data} />
+  if (isLoading ) {
+    return (
+      <Loading/>
+    )
+  } else {
+    return (
+      <>
+      { ProductList?.Data.Products.length === 0 ? (
+          <Empty message="محصولی یافت نشد" />
+        ) : (
+          <>
+            {categoriesWithProducts.length > 0 && (
+              <header className="p-2">
+                <CategoryList categories={categoriesWithProducts} />
+              </header>
             )}
+  
+            <main className="pt-1 overflow-auto">
+              {isSuccess && sliders?.Data?.length > 0 && (
+                <Slider images={sliders.Data} />
+              )}
+  
+              {categoriesWithProducts.map((category) => {
+                const products = ProductList?.Data.Products.filter(
+                  (p) => p.Category === category.Id
+                );
+                if (products?.length === 0) return null;
+  
+                return (
+                  <CategoryPreview
+                    key={category.Id}
+                    category={category}
+                    products={products?? []}
+                  />
+                );
+              })}
+            </main>
+          </>
+        )}
+      </>
+    );
+  }
 
-            {categoriesWithProducts.map((category) => {
-              const products = ProductList?.Data.Products.filter(
-                (p) => p.Category === category.Id
-              );
-              if (products?.length === 0) return null;
-
-              return (
-                <CategoryPreview
-                  key={category.Id}
-                  category={category}
-                  products={products?? []}
-                />
-              );
-            })}
-          </main>
-        </>
-      )}
-    </>
-  );
 }
 
 export default UserNameView;
