@@ -35,7 +35,7 @@ function CartItem({ product, mainPage = false }: CartItemProps) {
  const content = (
   <div
    className={`rounded-xl shadow-md p-2  flex items-center flex-col justify-between ${
-    product.Status ? "bg-white" : "bg-gray-100 text-gray-500"
+    product.Status ? "bg-white h-full" : "bg-gray-100 text-gray-500 "
    }`}
   >
    {/* Badge */}
@@ -60,7 +60,7 @@ function CartItem({ product, mainPage = false }: CartItemProps) {
      fill
      sizes="96px"
      className={`object-cover w-full h-full ${
-      !product.MainImage ? "filter grayscale opacity-20" : ""
+      !product.MainImage || !product.Status ? "filter grayscale opacity-20" : ""
      }`}
     />
    </div>
