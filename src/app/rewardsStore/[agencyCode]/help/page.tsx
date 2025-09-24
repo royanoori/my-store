@@ -1,8 +1,5 @@
-import HelpPage from "@/features/rewardsStore/components/HelpPage";
-import React from "react";
-
-function Help() {
- return <HelpPage />;
-}
-
-export default Help;
+import HelpView from "@/features/rewardsStore/views/HelpView";
+const HelpPage = async () => {
+  return <HelpView />;
+};
+export default HelpPage;

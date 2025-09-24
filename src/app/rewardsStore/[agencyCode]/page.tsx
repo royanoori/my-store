@@ -1,7 +1,7 @@
-import UserNameView from "@/features/rewardsStore/views/UserNameView";
+import StoreHomeView from "@/features/rewardsStore/views/StoreHomeView";
 
 function page() {
- return <UserNameView />;
+ return <StoreHomeView />;
 }
 
 export default page;
