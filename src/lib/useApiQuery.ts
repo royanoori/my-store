@@ -14,15 +14,22 @@ export const useApiQuery = <T>(
     queryKey: key,
     queryFn,
     staleTime: 60_000,
-    retry: 0, // دوباره کال نشه
-    ...options, // 👈 اینجا spread کن تا enabled و سایر گزینه‌ها اعمال بشه
+    retry: 0,
+    ...options,
   });
 
-  // ⚡️ پیام خطای شبکه بعد از render
   useEffect(() => {
     if (result.error) {
       const error = result.error;
-      const msg = (error.response?.data as any)?.Message || error.message || "خطای ناشناخته";
+      let msg = error.message || "خطای ناشناخته";
+
+      if (error.response?.data && typeof error.response.data === "object") {
+        const data = error.response.data as Record<string, unknown>;
+        if (typeof data.Message === "string" && data.Message.trim() !== "") {
+          msg = data.Message;
+        }
+      }
+
       showMessage(msg, "error");
     }
   }, [result.error, showMessage]);

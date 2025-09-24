@@ -3,6 +3,7 @@ import Image from "next/image";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Autoplay, Pagination, Thumbs, FreeMode } from "swiper/modules";
 import { useState } from "react";
+import { Swiper as SwiperClass } from "swiper/types";
 
 import "swiper/css";
 import "swiper/css/navigation";
@@ -17,20 +18,13 @@ type GalleryImageProductProps = {
 };
 
 function GalleryImageProduct({ title, mainImage, attaches }: GalleryImageProductProps) {
-  const [thumbsSwiper, setThumbsSwiper] = useState<any>(null);
+  const [thumbsSwiper, setThumbsSwiper] = useState<SwiperClass | null>(null);
 
-  // ساختن لیست تصاویر
-  const hasMainImage = !!mainImage;
-  const hasAttaches = Array.isArray(attaches) && attaches.length > 0;
-
-  let gallery: string[] = [];
-  if (hasMainImage && hasAttaches) {
-    gallery = [mainImage!, ...attaches];
-  } else if (!hasMainImage && hasAttaches) {
-    gallery = attaches;
-  } else if (hasMainImage && !hasAttaches) {
-    gallery = [mainImage!];
-  }
+  // ساختن لیست تصاویر به صورت خلاصه
+  const gallery = [
+    ...(mainImage ? [mainImage] : []),
+    ...(Array.isArray(attaches) ? attaches : []),
+  ];
 
   const showSlider = gallery.length > 1;
 
@@ -59,7 +53,7 @@ function GalleryImageProduct({ title, mainImage, attaches }: GalleryImageProduct
                     src={image}
                     alt={`thumb-${index}`}
                     fill
-                    className="object-cover rounded-full"
+                    className="object-cover rounded-full h-auto"
                   />
                 </SwiperSlide>
               ))}
@@ -71,10 +65,7 @@ function GalleryImageProduct({ title, mainImage, attaches }: GalleryImageProduct
               modules={[Pagination, Autoplay, Thumbs]}
               spaceBetween={10}
               slidesPerView={1}
-              autoplay={{
-                delay: 3500,
-                disableOnInteraction: false,
-              }}
+              autoplay={{ delay: 3500, disableOnInteraction: false }}
               pagination={{ clickable: true }}
               className="h-48 w-full rounded-xl shadow-lg"
             >
