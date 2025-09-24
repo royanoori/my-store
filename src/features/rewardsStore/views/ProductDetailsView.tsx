@@ -41,7 +41,7 @@ function ProductDetailsView({ productId }: ProductDetailsViewProps) {
     <h6 className="text-sm font-bold mb-4">{product.Title}</h6>
     <div className="mb-2 text-xs text-gray-500 flex flex-col gap-2">
      <strong className="text-gray-700 text-xs">معرفی:</strong>
-     <p>{product.Description}</p>
+     <p className="text-justify">{product.Description}</p>
     </div>
    </main>
 

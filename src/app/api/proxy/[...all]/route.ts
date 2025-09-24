@@ -1,6 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
 import axios from "axios";
-
 export async function GET(req: NextRequest) {
   return proxyHandler(req, "GET");
 }
@@ -34,16 +33,21 @@ async function proxyHandler(req: NextRequest, method: "GET" | "POST") {
     });
 
     return NextResponse.json(response.data, { status: response.status });
-  } catch (error: any) {
-    const data = error.response?.data;
-    const message =
-      data?.Message && data.Message.trim() !== ""
-        ? data.Message
-        : error.message || "خطای ناشناخته";
+  } 
+catch (error: unknown) {
+  let message = "خطای ناشناخته";
+  let data: Record<string, unknown> | undefined = undefined;
 
-    return NextResponse.json(
-      { ...data, message }, // پیام آماده برای نمایش
-      { status: error.response?.status || 500 }
-    );
+  if (axios.isAxiosError(error) && error.response) {
+    data = error.response.data as Record<string, unknown>;
+    message = (data?.Message as string)?.trim() !== "" ? (data.Message as string) : error.message;
+  } else if (error instanceof Error) {
+    message = error.message;
   }
+
+  return NextResponse.json(
+    { ...data, message },
+    { status: (axios.isAxiosError(error) ? error.response?.status : 500) || 500 }
+  );
+}
 }
