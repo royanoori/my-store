@@ -3,10 +3,9 @@ import HeaderUser from "@/features/rewardsStore/components/HeaderUser/HeaderUser
 interface LayoutProps {
  children: React.ReactNode;
  params: Promise<{ agencyCode: string }>;
- searchParams?: Promise<{ [key: string]: string | string[] | undefined }>;
 }
 
-const Layout = async ({ children, params, searchParams }: LayoutProps) => {
+const Layout = async ({ children, params}: LayoutProps) => {
  const { agencyCode } = await params;
 
  return (

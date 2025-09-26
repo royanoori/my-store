@@ -1,53 +1,36 @@
 "use client";
-import Empty from "@/components/Empty";
-import { RootState } from "@/store/store";
+
 import { useSelector } from "react-redux";
-import CustomBreadcrumbs from "../components/Breadcrumbs";
-import { TProduct } from "../type";
-import GalleryImageProduct from "../components/GalleryImageProduct";
-import BuyProductFooter from "../components/BuyProductFooter";
+import { RootState } from "@/store/store";
+import Empty from "@/components/Empty";
+import ProductHeader from "../components/ProductDetails/ProductHeader";
+import ProductGallery from "../components/ProductDetails/ProductGallery";
+import ProductInfo from "../components/ProductDetails/ProductInfo";
+import BuyProductFooter from "../components/ProductDetails/BuyProductFooter";
 
 type ProductDetailsViewProps = {
- productId: string;
+  productId: string;
 };
 
-function ProductDetailsView({ productId }: ProductDetailsViewProps) {
- const products = useSelector((state: RootState) => state.rewards.Products);
+export default function ProductDetailsView({ productId }: ProductDetailsViewProps) {
+  const products = useSelector((state: RootState) => state.rewards.Products);
 
- // پیدا کردن محصول
- const product: TProduct | undefined = products.find(
-  (p) => String(p.Id) === productId
- );
+  const product = products.find((p) => String(p.Id) === productId);
 
- if (!product) {
-  return <Empty message="محصول مورد نظر یافت نشد!" />;
- }
+  if (!product) {
+    return <Empty message="محصول مورد نظر یافت نشد!" />;
+  }
 
- return (
-  <div className="flex flex-col h-full justify-between">
-   <header className="px-2">
-    <CustomBreadcrumbs />
-   </header>
+  return (
+    <div className="flex flex-col h-full justify-between">
+      <ProductHeader />
 
-   <main className="overflow-y-auto scrollbar-hide px-2 py-3">
-    {/* گالری تصاویر */}
-    <GalleryImageProduct
-     title={product.Title}
-     mainImage={product.MainImage}
-     attaches={product.Attaches}
-    />
+      <main className="overflow-y-auto scrollbar-hide px-2 py-3">
+        <ProductGallery title={product.Title} mainImage={product.MainImage ?? undefined} attaches={product.Attaches} />
+        <ProductInfo title={product.Title} description={product.Description} />
+      </main>
 
-    {/* اطلاعات */}
-    <h6 className="text-sm font-bold mb-4">{product.Title}</h6>
-    <div className="mb-2 text-xs text-gray-500 flex flex-col gap-2">
-     <strong className="text-gray-700 text-xs">معرفی:</strong>
-     <p className="text-justify">{product.Description}</p>
+      <BuyProductFooter productId={product.Id} price={product.Price} />
     </div>
-   </main>
-
-   <BuyProductFooter productId={product.Id} price={product.Price} />
-  </div>
- );
+  );
 }
-
-export default ProductDetailsView;
