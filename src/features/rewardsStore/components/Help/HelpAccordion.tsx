@@ -19,6 +19,7 @@ export default function HelpAccordion({ id, title, content }: HelpAccordionProps
 
   return (
     <Accordion
+      key={id}
       expanded={expanded}
       onChange={handleChange}
       className="!rounded-md overflow-hidden mb-2 shadow-sm"

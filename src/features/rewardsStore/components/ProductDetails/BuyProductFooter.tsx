@@ -10,7 +10,7 @@ import {
 import { FaCartShopping } from "react-icons/fa6";
 import { useSelector } from "react-redux";
 import { RootState } from "@/store/store";
-import { useSubmitOrder } from "../hooks/useSubmitOrder";
+import { useSubmitOrder } from "../../hooks/useSubmitOrder";
 import { useSnackbar } from "@/providers/SnackbarProvider";
 import { useQueryClient } from "@tanstack/react-query";
 
